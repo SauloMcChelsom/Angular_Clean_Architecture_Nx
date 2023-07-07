@@ -1,0 +1,48 @@
+<mat-toolbar color="primary">
+  <a mat-button href="/">
+    <mat-icon>navigate_before</mat-icon>
+    <span>Voltar</span>
+  </a>
+
+  <span class="spacer"></span>
+
+  <h1>Angular - <span>Clean Architecture .design</span></h1>
+</mat-toolbar>
+
+<main>
+  <todo-header
+    (addItem)="onAddItem($event)"
+    (toggleAllCompleted)="onToggleAllCompleted()"
+    (toggleAllActive)="onToggleAllActive()"
+  >
+  </todo-header>
+
+  <todo-todos
+    [todos]="todos$ | async"
+    (checkItem)="onCheckItem($event)"
+    (uncheckItem)="onUncheckItem($event)"
+    (removeItem)="onRemoveItem($event)"
+  >
+  </todo-todos>
+
+  <todo-footer
+    [count]="activeTodosCount$ | async"
+    [filter]="filter$ | async"
+    (all)="onShowAll()"
+    (active)="onShowActive()"
+    (completed)="onShowCompleted()"
+    (clearCompleted)="onClearCompleted()"
+  >
+  </todo-footer>
+</main>
+
+<footer class="repo-link">
+  <a
+    mat-button
+    target="_blank"
+    rel="noopener noreferrer"
+    href="https://github.com/guiseek/nx-clean/blob/main/apps/todo/angular/src/app/todo"
+  >
+    Source code
+  </a>
+</footer>

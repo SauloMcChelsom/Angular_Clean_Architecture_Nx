@@ -1,0 +1,15 @@
+export class <%= entity.className %>StateVM {
+  filter: string | 'all' = 'all';
+  <%= entity.propertyName %>s: <%= entity.className %>VM[] = [];
+}
+
+export interface <%= entity.className %>VM {
+  id: string;
+  name: string;
+
+  /**
+   * different as in
+   * <%= entity.propertyName %> domain entity
+   */
+  editing?: boolean;
+}

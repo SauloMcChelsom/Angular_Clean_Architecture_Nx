@@ -1,0 +1,117 @@
+import { <%= entity.className %>StateVM, <%= entity.className %>VM } from '../viewmodel/<%= entity.fileName %>s.viewmodel';
+import { <%= entity.className %>ViewModelMapper } from '../mapper/<%= entity.fileName %>.mapper';
+import { <%= entity.className %>Presenter } from './<%= entity.fileName %>.presenter';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import {
+  <%= entity.className %>Repository,
+  Add<%= entity.className %>UseCase,
+  GetAll<%= entity.className %>sUseCase,
+  Remove<%= entity.className %>UseCase,
+} from '<%= projectDomain %>';
+<% if (injectable) { %>
+import { Injectable } from '@nx-clean/core';
+<% } %>
+
+<% if (injectable) { %>
+@Injectable()
+<% } %>
+export class <%= entity.className %>DefaultPresenter implements <%= entity.className %>Presenter {
+  <%= entity.propertyName %>s$: Observable<<%= entity.className %>VM[]>;
+  filter$: Observable<string>;
+
+  // internal state
+  private state = new <%= entity.className %>StateVM();
+  private dispatch = new BehaviorSubject<<%= entity.className %>StateVM>(this.state);
+  private mapper = new <%= entity.className %>ViewModelMapper();
+
+  // use cases
+  private getAll<%= entity.className %>sUC: GetAll<%= entity.className %>sUseCase;
+
+  private add<%= entity.className %>UC: Add<%= entity.className %>UseCase;
+
+  private remove<%= entity.className %>UC: Remove<%= entity.className %>UseCase;
+
+  constructor(private repository: <%= entity.className %>Repository) {
+    this.getAll<%= entity.className %>sUC = new GetAll<%= entity.className %>sUseCase(this.repository);
+
+    this.add<%= entity.className %>UC = new Add<%= entity.className %>UseCase(this.repository);
+
+    this.remove<%= entity.className %>UC = new Remove<%= entity.className %>UseCase(this.repository);
+
+    // state selectors
+    this.<%= entity.propertyName %>s$ = this.dispatch
+      .asObservable()
+      .pipe(map((state) => state.<%= entity.propertyName %>s));
+
+    this.filter$ = this.dispatch
+      .asObservable()
+      .pipe(map((state) => state.filter));
+  }
+
+  getAll<%= entity.className %>s(): Observable<<%= entity.className %>VM[]> {
+    const <%= entity.propertyName %>s$ = this.getAll<%= entity.className %>sUC
+      .execute()
+      .pipe(map((<%= entity.propertyName %>s) => <%= entity.propertyName %>s.map(this.mapper.mapFrom)));
+
+    <%= entity.propertyName %>s$.subscribe((<%= entity.propertyName %>s) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          <%= entity.propertyName %>s,
+          filter: 'all',
+        })
+      );
+    });
+
+    return <%= entity.propertyName %>s$;
+  }
+
+  add<%= entity.className %>({ name }:  Pick<<%= entity.className %>VM, 'name'>): Observable<<%= entity.className %>VM> {
+    const add$ = this.add<%= entity.className %>UC
+      .execute({ name, id: '' })
+      .pipe(map(this.mapper.mapFrom));
+
+    const <%= entity.propertyName %>s$ = this.getAll<%= entity.className %>sUC
+      .execute()
+      .pipe(map((<%= entity.propertyName %>s) => <%= entity.propertyName %>s.map(this.mapper.mapFrom)));
+
+    add$
+      .pipe(switchMap(() => <%= entity.propertyName %>s$))
+      .subscribe((<%= entity.propertyName %>s) => {
+        this.dispatch.next(
+          (this.state = {
+            ...this.state,
+            <%= entity.propertyName %>s,
+          })
+        );
+      });
+
+    return add$;
+  }
+
+  remove<%= entity.className %>(id: string) {
+    const remove$ = this.remove<%= entity.className %>UC.execute({ id });
+    const <%= entity.propertyName %>s$ = this.getAll<%= entity.className %>sUC
+      .execute()
+      .pipe(map((<%= entity.propertyName %>s) => <%= entity.propertyName %>s.map(this.mapper.mapFrom)));
+
+    forkJoin([remove$, <%= entity.propertyName %>s$]).subscribe(([,<%= entity.propertyName %>s]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          <%= entity.propertyName %>s: <%= entity.propertyName %>s.map(this.mapper.mapFrom)
+        })
+      );
+    });
+  }
+
+  private update<%= entity.className %>s(<%= entity.propertyName %>s: <%= entity.className %>VM[]) {
+    this.dispatch.next(
+      (this.state = {
+        ...this.state,
+        <%= entity.propertyName %>s,
+      })
+    );
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "Domain",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Which domain name would you like to create?"
+    },
+    "entity": {
+      "type": "string",
+      "description": "Add entity to the domain (singular)",
+      "alias": "t"
+    },
+    "repository": {
+      "type": "boolean",
+      "description": "Would you like to add a repository?",
+      "default": false
+    },
+    "injectable": {
+      "type": "boolean",
+      "description": "Would you like to use dependency injection?",
+      "default": true
+    },
+    "usecases": {
+      "type": "boolean",
+      "description": "Would you like to add a usecases?",
+      "default": false
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "t"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "d"
+    }
+  },
+  "required": ["name", "entity"]
+}

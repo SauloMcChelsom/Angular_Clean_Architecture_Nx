@@ -1,0 +1,24 @@
+{
+  "name": "@nx-clean/core",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guiseek/nx-clean.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "Guilherme Visi Siquinelli",
+    "email": "email@guiseek.dev",
+    "url": "https://guiseek.dev"
+  },
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/guiseek/nx-clean/issues"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "reflect-metadata": "0.1.13"
+  }
+}

@@ -1,0 +1,11 @@
+<todo-checkbox
+  [formControl]="checkbox"
+  [checked]="todo.completed"
+  (stateChange)="onToggleItem(checkbox.value)"
+>
+  {{ todo.name }}
+</todo-checkbox>
+
+<button mat-icon-button (click)="onRemoveItem()">
+  <mat-icon>clear</mat-icon>
+</button>

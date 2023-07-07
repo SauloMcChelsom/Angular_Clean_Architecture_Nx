@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@nx-clean/cli": ["libs/cli/src/index.ts"],
+      "@nx-clean/core": ["libs/core/src/index.ts"],
+      "@nx-clean/core-plugin": ["libs/plugin/core/src/index.ts"],
+      "@nx-clean/todo-data-access": ["libs/todo/data-access/src/index.ts"],
+      "@nx-clean/todo-domain": ["libs/todo/domain/src/index.ts"],
+      "@nx-clean/todo-presentation": ["libs/todo/presentation/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

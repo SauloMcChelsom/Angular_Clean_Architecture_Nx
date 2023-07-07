@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "plugin",
+  "version": "0.0.1",
+  "schematics": {
+    "domain": {
+      "factory": "./src/generators/domain/generator.compat#generatorSchematic",
+      "schema": "./src/generators/domain/schema.json",
+      "description": "Add a domain library",
+      "hidden": true
+    },
+    "data": {
+      "factory": "./src/generators/data/generator.compat#generatorSchematic",
+      "schema": "./src/generators/data/schema.json",
+      "description": "Add a data access library",
+      "hidden": true
+    },
+    "presentation": {
+      "factory": "./src/generators/presentation/generator.compat#generatorSchematic",
+      "schema": "./src/generators/presentation/schema.json",
+      "description": "Add a presentation library",
+      "hidden": true
+    },
+    "repository": {
+      "factory": "./src/generators/repository/generator.compat#generatorSchematic",
+      "schema": "./src/generators/repository/schema.json",
+      "description": "Add a abstract and implementation repository",
+      "hidden": true
+    },
+    "init": {
+      "factory": "./src/generators/init/generator.compat#generatorSchematic",
+      "schema": "./src/generators/init/schema.json",
+      "description": "Initialize",
+      "aliases": ["ng-add"],
+      "hidden": true
+    }
+  },
+  "generators": {
+    "domain": {
+      "factory": "./src/generators/domain/generator",
+      "schema": "./src/generators/domain/schema.json",
+      "description": "Add a domain library"
+    },
+    "data": {
+      "factory": "./src/generators/data/generator",
+      "schema": "./src/generators/data/schema.json",
+      "description": "Add a data access library"
+    },
+    "presentation": {
+      "factory": "./src/generators/presentation/generator",
+      "schema": "./src/generators/presentation/schema.json",
+      "description": "Add a presentation library"
+    },
+    "repository": {
+      "factory": "./src/generators/repository/generator",
+      "schema": "./src/generators/repository/schema.json",
+      "description": "Add a abstract and implementation repository"
+    },
+    "init": {
+      "factory": "./src/generators/init/generator",
+      "schema": "./src/generators/init/schema.json",
+      "description": "Initialize",
+      "aliases": ["ng-add"],
+      "hidden": true
+    }
+  }
+}

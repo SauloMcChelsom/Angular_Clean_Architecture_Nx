@@ -1,0 +1,17 @@
+import { <%= entity.className %>VM } from '../viewmodel/<%= entity.fileName %>s.viewmodel';
+import { Observable } from 'rxjs';
+<% if (injectable) { %>
+import { Injectable } from '@nx-clean/core';
+<% } %>
+
+<% if (injectable) { %>
+@Injectable()
+<% } %>
+export abstract class <%= entity.className %>Presenter {
+  abstract <%= entity.propertyName %>s$: Observable<<%= entity.className %>VM[]>;
+  abstract filter$: Observable<string>;
+
+  abstract getAll<%= entity.className %>s(): Observable<<%= entity.className %>VM[]>;
+  abstract add<%= entity.className %>(<%= entity.propertyName %>: Pick<<%= entity.className %>VM, 'name'>): Observable<<%= entity.className %>VM>;
+  abstract remove<%= entity.className %>(id: string): void;
+}

@@ -1,0 +1,43 @@
+import { <%= entity.className %><%= type.className %>Repository } from './<%= entity.fileName %>.<%= type.fileName %>.repository';
+import { <%= entity.className %>Repository } from '<%= projectDomain %>';
+import { forkJoin } from 'rxjs';
+
+describe('<%= entity.className %> <%= type.className %> Repository', () => {
+  let repo: <%= entity.className %>Repository;
+
+  beforeEach(() => {
+    repo = new <%= entity.className %><%= type.className %>Repository([
+      {
+        id: '1',
+        title: 'one'
+      },
+      {
+        id: '2',
+        title: 'two'
+      },
+      {
+        id: '3',
+        title: 'three'
+      },
+    ]);
+  });
+
+  it('get all', (done) => {
+    repo.getAll<%= entity.className %>s().subscribe((<%= entity.propertyName %>s) => {
+      expect(<%= entity.propertyName %>s.length).toEqual(3);
+      done();
+    });
+  });
+
+  it('add <%= entity.propertyName %>', (done) => {
+    const name = 'bar';
+    const add$ = repo.add<%= entity.className %>({name});
+    const all$ = repo.getAll<%= entity.className %>s();
+
+    forkJoin([add$, all$]).subscribe(([<%= entity.propertyName %>, <%= entity.propertyName %>s]) => {
+      expect(<%= entity.propertyName %>.name).toEqual('bar');
+      expect(<%= entity.propertyName %>s.length).toEqual(4);
+      done();
+    });
+  });
+});
